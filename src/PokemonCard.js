@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableHighlight, Image, View} from 'react-native';
+import { StyleSheet, Text, TouchableHighlight, Image, View } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -54,34 +54,77 @@ const styles2 = {
   },
 };
 
+const getColorFromType = (type) => {
+  switch (type) {
+    default:
+      return '#000'
+    case 'bug':
+      return '#8BD674'
+    case 'dark':
+      return '#6F6E78'
+    case 'dragon':
+      return '#7383B9'
+    case 'electric':
+      return '#ffd86f'
+    case 'fairy':
+      return '#EBA8C3'
+    case 'fighting':
+      return '#EB4971'
+    case 'fire':
+      return '#fb6c6c'
+    case 'flying':
+      return '#83A2E3'
+    case 'ghost':
+      return '#8571BE'
+    case 'grass':
+      return '#48d0b0'
+    case 'ground':
+      return '#F78551'
+    case 'ice':
+      return '#91D8DF'
+    case 'normal':
+      return '#B5B9C4'
+    case 'poison':
+      return '#9F6E97'
+    case 'psychic':
+      return '#FF6568'
+    case 'rock':
+      return '#D4C294'
+    case 'steel':
+      return '#4C91B2'
+    case 'water':
+      return '#76bdfe'
+  }
+}
+
 const PokemonCard = props => {
 
-    let type = [];
-    for(let key in props.types){
-        type.push(
-        <Text style={styles2.type}>{props.types[key]}</Text>
-        );
-    }
+  let type = [];
+  for (let key in props.types) {
+    type.push(
+      <Text style={styles2.type}>{props.types[key]}</Text>
+    );
+  }
 
-   return <TouchableHighlight onPress={() => props.onPress(props.name)}>
-                <View style={styles.container}>
-                <Image
-                    style={styles.pokemon}
-                    source={{
-                    uri: props.image
-                    }}
-                />
-                <Text style={styles.id}>{props.id}</Text>
-                <Text style={styles.name}>{props.name}</Text>
-                <Image
-                    style={styles.pokeball}
-                    source={require('./assets/pokeball.png')}
-                />
-                <View style={styles2.container}>
-                    {type}
-                </View>
-                </View>
-            </TouchableHighlight>
+  return <TouchableHighlight onPress={() => props.onPress(props.name)}>
+    <View style={styles.container.backgroundColor(getColorFromType(props.types[0]))}>
+      <Image
+        style={styles.pokemon}
+        source={{
+          uri: props.image
+        }}
+      />
+      <Text style={styles.id}>{props.id}</Text>
+      <Text style={styles.name}>{props.name}</Text>
+      <Image
+        style={styles.pokeball}
+        source={require('./assets/pokeball.png')}
+      />
+      <View style={styles2.container}>
+        {type}
+      </View>
+    </View>
+  </TouchableHighlight>
 
 };
 
