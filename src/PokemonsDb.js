@@ -33,7 +33,7 @@ let  pokemonData = [
     name: "charmander",
     image: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/004.png',
     types: [
-      "Fire"
+      "fire"
     ]
   },
   {
@@ -41,7 +41,7 @@ let  pokemonData = [
     name: "charmeleon",
     image: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/005.png',
     types: [
-      "Fire"  
+      "fire"  
     ]
   },
   {
@@ -49,8 +49,8 @@ let  pokemonData = [
     name: "Charizard",
     image: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/006.png',
     types: [
-      "Fire",
-      "Flying"  
+      "fire",
+      "flying"  
     ]
   },
   {
@@ -58,7 +58,7 @@ let  pokemonData = [
     name: "Squirtle",
     image: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/007.png',
     types: [
-      "Water"
+      "water"
     ]
   },
   {
@@ -66,7 +66,7 @@ let  pokemonData = [
     name: "Wartortle",
     image: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/008.png',
     types: [
-      "Water"
+      "water"
     ]
   },
   {
@@ -74,7 +74,7 @@ let  pokemonData = [
     name: "Blastoise",
     image: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/009.png',
     types: [
-      "Water" 
+      "water" 
     ]
   },
   {
@@ -82,7 +82,7 @@ let  pokemonData = [
     name: "Caterpi ",
     image: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/010.png',
     types: [
-      "Bug"
+      "bug"
     ]
   },
   {
@@ -90,7 +90,7 @@ let  pokemonData = [
     name: "Metapod",
     image: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/011.png',
     types: [
-      "Bug"
+      "bug"
     ]
   },
   {
@@ -98,7 +98,7 @@ let  pokemonData = [
     name: "Butterfree",
     image: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/012.png',
     types: [
-      "Bug",
+      "bug",
       "Flying"
     ]
   },

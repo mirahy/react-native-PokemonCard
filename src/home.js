@@ -1,35 +1,87 @@
-import React from 'react';
-import Icon from 'react-native-ionicons'
-import { StyleSheet, ScrollView, Text } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import Icon from 'react-native-ionicons';
+import {
+  StyleSheet,
+  ScrollView,
+  View,
+  TextInput,
+  ActivityIndicator,
+  Text,
+  Image
+} from 'react-native';
 
 import PokemonCard from './PokemonCard';
 import PokemonsDb from './PokemonsDb';
 
+
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#DDDDDD',
-    padding: 4,
+    flex:1,
+    padding: 8,
+    paddingTop: 10,
+    paddingBottom: 0,
+    backgroundColor: '#fff',
+  },
+  title: {
+    color: '#747476',
+    padding: 5,
+    fontSize: 32,
+    fontWeight: 'bold',
+  },
+  text1: {
+    color: '#747476',
+    fontSize: 16,
+    lineHeight: 20,
+    marginBottom: 5,
+    padding: 5,
+  },
+  imgPokeball: {
+    zIndex: -1,
+    opacity: 0.03,
+    width: 400,
+    height: 400,
+    alignSelf: 'center',
+    top: -200,
+    position: 'absolute',
+  },
+});
+
+const stylesSearch = StyleSheet.create({
+  input: {
+    color: '#747476',
+    padding: 15,
+    paddingLeft: 50,
+    marginBottom: 5,
+    backgroundColor: '#F2F2F2',
+    borderRadius: 50,
+  },
+  icon: {
+    color: '#747476',
+    position: 'absolute',
+    left: 20,
+    bottom: 22,
+    fontFamily: 'Ionicons',
+    fontSize: 22
   },
 });
 
 const App = props => {
-
-  const [loading, setLoading] = useState(true)
-  const [data, setData] = useState([])
-  const [q, setQ] = useState('')
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [q, setQ] = useState('');
 
   useEffect(() => {
-    setTimeout(carregarDados, 2000)
-  })
+    setTimeout(carregarDados, 2000);
+  });
 
   const carregarDados = () => {
-    console.log('carregarDados')
+    
+    setData(PokemonsDb);
+    setLoading(false);
+  };
 
-    setData(PokemonsDb)
-    setLoading(false)
-  }
   const abrirDetalhe = id => {
-    props.navigation.navigate('Detalhes', { id });
+    props.navigation.navigate('Detalhes', {id});
   };
 
   const capitalize = text => {
@@ -38,24 +90,41 @@ const App = props => {
   };
 
   const jsxPokemon = () => (
-    <View>
-      <Icon name="search" />
-      <TextInput
-        value={q}
-        onChangeText={setQ}
-      />
-      <ScrollView style={styles.container}>
+    <View style={[{backgroundColor: '#fff'},styles.container]}>
+      <Image
+          style={styles.imgPokeball}
+          source={
+            require('./assets/pokeball.png')
+          }
+        />
+      <ScrollView >
+        <Text style={styles.title}>Pokédex</Text>
+        <Text style={styles.text1}>
+          Pesquise um pokemon pelo nome ou usando o número da National Pokedex
+        </Text>
+        <View>
+        
+        <TextInput
+          style={stylesSearch.input}
+          value={q}
+          onChangeText={setQ}
+          placeholder="Qual pokemon você está procurando?"
+          placeholderTextColor="#747476"
+        />
+        <Icon name="search" style={stylesSearch.icon}/>
+        </View>
+        
         {jsxLista()}
       </ScrollView>
     </View>
-  )
+  );
 
   const jsxLista = () => {
     let tmp = [];
     for (let key in dataFiltrado) {
       let PokemonDb = dataFiltrado[key];
       let name = capitalize(PokemonDb.name);
-      let id = "#" + ("000" + PokemonDb.id).slice(-3);
+      let id = '#' + ('000' + PokemonDb.id).slice(-3);
       tmp.push(
         <PokemonCard
           id={id}
@@ -63,34 +132,38 @@ const App = props => {
           image={PokemonDb.image}
           types={PokemonDb.types}
           onPress={abrirDetalhe}
-        />
+          key={key}
+        />,
       );
     }
     return tmp;
-
-  }
+  };
 
   const jsxLoading = () => (
     <View>
       <ActivityIndicator size="large" />
     </View>
-  )
+  );
 
   let dataFiltrado;
   if (q == '') {
-    dataFiltrado = data
+    dataFiltrado = data;
   } else {
-    dataFiltrado = []
-    let q2 = q.toUpperCase()
+    dataFiltrado = [];
+    let q2 = q.toUpperCase();
     for (let key in data) {
-      let texto = `${data[key].id} ${data[key].name}`
+      let texto = `${data[key].id} ${data[key].name}`;
       if (texto.toUpperCase().indexOf(q2) >= 0) {
-        dataFiltrado.push(data[key])
+        dataFiltrado.push(data[key]);
       }
     }
   }
 
-  return <ScrollView style={styles.container}>{loading ? jsxLoading : jsxPokemon}</ScrollView>;
+  if (loading) {
+    return jsxLoading();
+  } else {
+    return jsxPokemon();
+  }
 };
 
 export default App;
