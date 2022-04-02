@@ -99,7 +99,7 @@ const getColorFromType = type => {
 const PokemonCard = props => {
   let type = [];
   for (let key in props.types) {
-    type.push(<Text style={styles2.type}>{props.types[key]}</Text>);
+    type.push(<Text style={styles2.type} key={key}>{props.types[key]}</Text>);
   }
 
   let typeColor = getColorFromType(props.types[0]);
