@@ -96,16 +96,24 @@ const getColorFromType = type => {
   }
 };
 
+const capitalize = text => {
+  text = text.replace('-', ' ');
+  return text.charAt(0).toUpperCase() + text.slice(1, text.length);
+};
+
 const PokemonCard = props => {
   let type = [];
   for (let key in props.types) {
     type.push(<Text style={styles2.type} key={key}>{props.types[key]}</Text>);
   }
 
-  let typeColor = getColorFromType(props.types[0]);
+  let name = capitalize(props.name);
+  let id = '#' + ('000' + props.id).slice(-3);
 
+  let typeColor = getColorFromType(props.types[0]);
+  
   return (
-    <TouchableHighlight onPress={() => props.onPress(props.name)}>
+    <TouchableHighlight onPress={() => props.onPress(props.description)}>
       <View style={[styles.container, {backgroundColor: typeColor}]}>
         <Image
           style={styles.pokemon}
@@ -113,8 +121,8 @@ const PokemonCard = props => {
             uri: props.image,
           }}
         />
-        <Text style={styles.id}>{props.id}</Text>
-        <Text style={styles.name}>{props.name}</Text>
+        <Text style={styles.id}>{id}</Text>
+        <Text style={styles.name}>{name}</Text>
         <Image
           style={styles.pokeball}
           source={require('./assets/pokeball.png')}

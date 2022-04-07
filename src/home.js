@@ -7,7 +7,8 @@ import {
   TextInput,
   ActivityIndicator,
   Text,
-  Image
+  Image,
+  FlatList
 } from 'react-native';
 
 import PokemonCard from './PokemonCard';
@@ -84,10 +85,6 @@ const App = props => {
     props.navigation.navigate('Detalhes', {id});
   };
 
-  const capitalize = text => {
-    text = text.replace('-', ' ');
-    return text.charAt(0).toUpperCase() + text.slice(1, text.length);
-  };
 
   const jsxPokemon = () => (
     <View style={[{backgroundColor: '#fff'},styles.container]}>
@@ -97,29 +94,45 @@ const App = props => {
             require('./assets/pokeball.png')
           }
         />
-      <ScrollView >
+      <View >
         <Text style={styles.title}>Pokédex</Text>
         <Text style={styles.text1}>
           Pesquise um pokemon pelo nome ou usando o número da National Pokedex
         </Text>
         <View>
         
-        <TextInput
-          style={stylesSearch.input}
-          value={q}
-          onChangeText={setQ}
-          placeholder="Qual pokemon você está procurando?"
-          placeholderTextColor="#747476"
-        />
-        <Icon name="search" style={stylesSearch.icon}/>
+          <TextInput
+            style={stylesSearch.input}
+            value={q}
+            onChangeText={setQ}
+            placeholder="Qual pokemon você está procurando?"
+            placeholderTextColor="#747476"
+          />
+          <Icon name="search" style={stylesSearch.icon}/>
         </View>
         
-        {jsxLista()}
-      </ScrollView>
+        {/* {jsxLista()} */}
+        <FlatList data={dataFiltrado} renderItem={Item} />
+      </View>
     </View>
   );
 
-  const jsxLista = () => {
+  const Item = props => {
+    
+    return (
+      <PokemonCard
+          id={props.item.id}
+          name={props.item.name}
+          image={props.item.image}
+          types={props.item.types}
+          onPress={abrirDetalhe}
+          description={props.item.description}
+          key={props.indexOf}
+        />
+    );
+  };
+
+ /*  const jsxLista = () => {
     let tmp = [];
     for (let key in dataFiltrado) {
       let PokemonDb = dataFiltrado[key];
@@ -137,7 +150,7 @@ const App = props => {
       );
     }
     return tmp;
-  };
+  }; */
 
   const jsxLoading = () => (
     <View>
