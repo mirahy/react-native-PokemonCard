@@ -113,7 +113,7 @@ const PokemonCard = props => {
   let typeColor = getColorFromType(props.types[0]);
   
   return (
-    <TouchableHighlight onPress={() => props.onPress(props.description)}>
+    <TouchableHighlight onPress={() => props.onPress([props.description,props.training])}>
       <View style={[styles.container, {backgroundColor: typeColor}]}>
         <Image
           style={styles.pokemon}

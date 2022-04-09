@@ -110,8 +110,6 @@ const App = props => {
           />
           <Icon name="search" style={stylesSearch.icon}/>
         </View>
-        
-        {/* {jsxLista()} */}
         <FlatList data={dataFiltrado} renderItem={Item} />
       </View>
     </View>
@@ -127,30 +125,12 @@ const App = props => {
           types={props.item.types}
           onPress={abrirDetalhe}
           description={props.item.description}
+          training={props.item.training}
           key={props.indexOf}
         />
     );
   };
 
- /*  const jsxLista = () => {
-    let tmp = [];
-    for (let key in dataFiltrado) {
-      let PokemonDb = dataFiltrado[key];
-      let name = capitalize(PokemonDb.name);
-      let id = '#' + ('000' + PokemonDb.id).slice(-3);
-      tmp.push(
-        <PokemonCard
-          id={id}
-          name={name}
-          image={PokemonDb.image}
-          types={PokemonDb.types}
-          onPress={abrirDetalhe}
-          key={key}
-        />,
-      );
-    }
-    return tmp;
-  }; */
 
   const jsxLoading = () => (
     <View>
