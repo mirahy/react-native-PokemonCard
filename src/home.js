@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import PokemonCard from './PokemonCard';
-import PokemonsDb from './PokemonsDb';
+import {pegarPokemons} from './services/PokemonService'
 
 
 const styles = StyleSheet.create({
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     top: -200,
     position: 'absolute',
-  },
+  }
 });
 
 const stylesSearch = StyleSheet.create({
@@ -75,9 +75,8 @@ const App = props => {
     setTimeout(carregarDados, 2000);
   });
 
-  const carregarDados = () => {
-    
-    setData(PokemonsDb);
+  const carregarDados = () => {  
+    setData(pegarPokemons());
     setLoading(false);
   };
 
@@ -91,7 +90,7 @@ const App = props => {
       <Image
           style={styles.imgPokeball}
           source={
-            require('./assets/pokeball.png')
+            require('../assets/pokeball.png')
           }
         />
       <View >
@@ -110,18 +109,15 @@ const App = props => {
           />
           <Icon name="search" style={stylesSearch.icon}/>
         </View>
-        
-        {/* {jsxLista()} */}
         <FlatList data={dataFiltrado} renderItem={Item} />
       </View>
     </View>
   );
 
-  const Item = props => {
-    
+  const Item = props => { 
     return (
       <PokemonCard
-          id={props.item.id}
+          id={props.index}
           name={props.item.name}
           image={props.item.image}
           types={props.item.types}
@@ -131,26 +127,6 @@ const App = props => {
         />
     );
   };
-
- /*  const jsxLista = () => {
-    let tmp = [];
-    for (let key in dataFiltrado) {
-      let PokemonDb = dataFiltrado[key];
-      let name = capitalize(PokemonDb.name);
-      let id = '#' + ('000' + PokemonDb.id).slice(-3);
-      tmp.push(
-        <PokemonCard
-          id={id}
-          name={name}
-          image={PokemonDb.image}
-          types={PokemonDb.types}
-          onPress={abrirDetalhe}
-          key={key}
-        />,
-      );
-    }
-    return tmp;
-  }; */
 
   const jsxLoading = () => (
     <View>

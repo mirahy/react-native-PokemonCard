@@ -1,6 +1,8 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableHighlight, Image, View} from 'react-native';
 
+import {capitalize} from './util'
+
 const styles = StyleSheet.create({
   container: {
     height: 130,
@@ -96,11 +98,6 @@ const getColorFromType = type => {
   }
 };
 
-const capitalize = text => {
-  text = text.replace('-', ' ');
-  return text.charAt(0).toUpperCase() + text.slice(1, text.length);
-};
-
 const PokemonCard = props => {
   let type = [];
   for (let key in props.types) {
@@ -113,7 +110,7 @@ const PokemonCard = props => {
   let typeColor = getColorFromType(props.types[0]);
   
   return (
-    <TouchableHighlight onPress={() => props.onPress(props.description)}>
+    <TouchableHighlight onPress={() => props.onPress(props.id)}>
       <View style={[styles.container, {backgroundColor: typeColor}]}>
         <Image
           style={styles.pokemon}
@@ -125,7 +122,7 @@ const PokemonCard = props => {
         <Text style={styles.name}>{name}</Text>
         <Image
           style={styles.pokeball}
-          source={require('./assets/pokeball.png')}
+          source={require('../assets/pokeball.png')}
         />
         <View style={styles2.container}>{type}</View>
       </View>
