@@ -123,6 +123,7 @@ const App = props => {
           types={props.item.types}
           onPress={abrirDetalhe}
           description={props.item.description}
+          training={props.item.training}
           key={props.indexOf}
         />
     );
