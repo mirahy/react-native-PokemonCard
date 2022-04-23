@@ -93,7 +93,7 @@ const App = props => {
             require('../assets/pokeball.png')
           }
         />
-      <View >
+      <View style={[{flex: 1}]}>
         <Text style={styles.title}>Pokédex</Text>
         <Text style={styles.text1}>
           Pesquise um pokemon pelo nome ou usando o número da National Pokedex
@@ -117,7 +117,7 @@ const App = props => {
   const Item = props => { 
     return (
       <PokemonCard
-          id={props.index}
+          id={props.item.id}
           name={props.item.name}
           image={props.item.image}
           types={props.item.types}

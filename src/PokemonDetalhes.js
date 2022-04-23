@@ -1,81 +1,96 @@
 import React, {useEffect} from 'react';
 import {Text, StyleSheet, ScrollView, Button, View, Image} from 'react-native';
 import {pegarPokemon} from './services/PokemonService';
-import {capitalize} from './util'
+import {capitalize, getColorFromType} from './util';
 
 export default props => {
-  let id = props.route.params.id
-  let pokemon = pegarPokemon(id)
+  let id = props.route.params.id;
+  let pokemon = pegarPokemon(id);
   let name = capitalize(pokemon.name);
   let type = [];
+  let typeDefences = [];
   let typeColor = getColorFromType(pokemon.types[0]);
 
   for (let key in pokemon.types) {
-    type.push(<Text style={styles.type} key={key}>{pokemon.types[key]}</Text>);
+    type.push(
+      <Text style={styles.type} key={key}>
+        {pokemon.types[key]}
+      </Text>,
+    );
+  }
+
+  for (let key in pokemon.typeDefences) {
+    if(pokemon.typeDefences[key])
+    typeDefences.push(
+      <Text style={styles.dataText} key={key}>
+        {pokemon.typeDefences[key]}
+      </Text>,
+    );
   }
 
   const botaoVoltar = () => {
-    props.navigation.goBack()
-  }
+    props.navigation.goBack();
+  };
 
   useEffect(() => {
-    props.navigation.setOptions({title: name, backgroundColor: 'black'})
-  })
-  
-  return(
+    props.navigation.setOptions({title: name, backgroundColor: 'black'});
+  });
+
+  return (
     <ScrollView style={[styles.container, {backgroundColor: typeColor}]}>
       <Image
-          style={styles.pokeball}
-          source={require('../assets/pokeball.png')}
-        />
-      
+        style={styles.pokeball}
+        source={require('../assets/pokeball.png')}
+      />
       <View style={styles.fotoContainer}>
-        <Image
-          style={styles.foto} 
-            source={{uri:pokemon.image}}
-          />
+        <Image style={styles.foto} source={{uri: pokemon.image}} />
       </View>
       <Text style={styles.texto}>{name}</Text>
       <View style={styles.typeContainer}>{type}</View>
+      <Text style={styles.description}>Description</Text>
+      <Text style={styles.descriptionText}>{pokemon.description}</Text>
+      <Text style={styles.dataText}>Species: {pokemon.species}</Text>
+      <Text style={styles.dataText}>Height: {pokemon.height}</Text>
+      <Text style={styles.dataText}>Weight: {pokemon.weight}</Text>
+      <Text style={styles.description}>TypeDefences:</Text>
+      <View >{typeDefences}</View>
       <View style={styles.botaoContainer}>
-        <Button
-        style={styles.botao}
-          onPress={botaoVoltar}
-          title="Voltar"
-        />
-
+        <Button style={styles.botao} onPress={botaoVoltar} title="Voltar" />
       </View>
-
     </ScrollView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
-    flex:1,
+    paddingTop: 15,
+    paddingRight: 5,
+    paddingLeft: 5,
+    paddingBotton: 15,
+    flex: 1,
   },
   texto: {
     fontSize: 40,
     textAlign: 'center',
-    color: '#FFFFFF'
+    color: '#FFFFFF',
   },
-  botaoContainer:{
-    flexDirection: 'row',
+  botaoContainer: {
+    flex: 1,
+    
     justifyContent: 'center',
-    marginVertical: 10
+    marginVertical: 15,
   },
-  fotoContainer:{
+  fotoContainer: {
     backgroundColor: '#FFFFFF',
     flexDirection: 'row',
     marginBotton: 10,
     overflow: 'hidden',
-    borderRadius: 150
+    borderRadius: 150,
   },
-  foto:{
+  foto: {
     flex: 1,
     aspectRatio: 1,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
   type: {
     color: '#FFFFFF',
@@ -90,60 +105,32 @@ const styles = StyleSheet.create({
   typeContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    margin: 10
+    margin: 10,
   },
   pokeball: {
-    flex: 1,
-    aspectRatio: 1,
     zIndex: -1,
     opacity: 0.15,
-    width: 800,
-    height: 800,
+    width: 2000,
+    height: 2000,
     position: 'absolute',
     tintColor: '#FFF',
-    resizeMode: 'repeat'
+    resizeMode: 'repeat',
+  },
+  description: {
+    fontSize: 20,
+    textAlign: 'center',
+    color: '#FFFFFF',
+    fontWeight: 'bold'
+  },
+  descriptionText: {
+    fontSize: 15,
+    textAlign: 'center',
+    color: '#FFFFFF',
+  },
+  dataText: {
+    fontSize: 15,
+    textAlign: 'center',
+    color: '#FFFFFF',
+    fontWeight: 'bold',
   },
 });
-
-const getColorFromType = type => {
-  switch (type) {
-    default:
-      return '#000';
-    case 'bug':
-      return '#8BD674';
-    case 'dark':
-      return '#6F6E78';
-    case 'dragon':
-      return '#7383B9';
-    case 'electric':
-      return '#ffd86f';
-    case 'fairy':
-      return '#EBA8C3';
-    case 'fighting':
-      return '#EB4971';
-    case 'fire':
-      return '#fb6c6c';
-    case 'flying':
-      return '#83A2E3';
-    case 'ghost':
-      return '#8571BE';
-    case 'grass':
-      return '#48d0b0';
-    case 'ground':
-      return '#F78551';
-    case 'ice':
-      return '#91D8DF';
-    case 'normal':
-      return '#B5B9C4';
-    case 'poison':
-      return '#9F6E97';
-    case 'psychic':
-      return '#FF6568';
-    case 'rock':
-      return '#D4C294';
-    case 'steel':
-      return '#4C91B2';
-    case 'water':
-      return '#76bdfe';
-  }
-};
