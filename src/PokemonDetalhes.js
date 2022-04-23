@@ -24,12 +24,16 @@ export default props => {
   
   return(
     <ScrollView style={[styles.container, {backgroundColor: typeColor}]}>
+      <Image
+          style={styles.pokeball}
+          source={require('../assets/pokeball.png')}
+        />
       
       <View style={styles.fotoContainer}>
         <Image
-        style={styles.foto} 
-          source={{uri:pokemon.image}}
-        />
+          style={styles.foto} 
+            source={{uri:pokemon.image}}
+          />
       </View>
       <Text style={styles.texto}>{name}</Text>
       <View style={styles.typeContainer}>{type}</View>
@@ -48,10 +52,8 @@ export default props => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 130,
-    padding: 20,
-    overflow: 'hidden',
-  
+    padding: 15,
+    flex:1,
   },
   texto: {
     fontSize: 40,
@@ -73,7 +75,7 @@ const styles = StyleSheet.create({
   foto:{
     flex: 1,
     aspectRatio: 1,
-    risizeMode: 'contain'
+    resizeMode: 'contain'
   },
   type: {
     color: '#FFFFFF',
@@ -89,6 +91,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     margin: 10
+  },
+  pokeball: {
+    flex: 1,
+    aspectRatio: 1,
+    zIndex: -1,
+    opacity: 0.15,
+    width: 800,
+    height: 800,
+    position: 'absolute',
+    tintColor: '#FFF',
+    resizeMode: 'repeat'
   },
 });
 
