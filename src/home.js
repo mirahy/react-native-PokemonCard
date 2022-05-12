@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import Icon from 'react-native-ionicons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   StyleSheet,
   ScrollView,
@@ -107,7 +107,7 @@ const App = props => {
             placeholder="Qual pokemon você está procurando?"
             placeholderTextColor="#747476"
           />
-          <Icon name="search" style={stylesSearch.icon}/>
+          <Ionicons name="search" style={stylesSearch.icon} />
         </View>
         <FlatList data={dataFiltrado} renderItem={Item} />
       </View>

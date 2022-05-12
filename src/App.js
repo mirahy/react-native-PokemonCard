@@ -12,8 +12,8 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Pokedex" component={HomeScreen} />
-        <Stack.Screen name="Detalhes" component={PokemonDetalhesScreen} />
+        <Stack.Screen name="Pokedex" component={HomeScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="Detalhes" component={PokemonDetalhesScreen} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
