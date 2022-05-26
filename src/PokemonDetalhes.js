@@ -1,17 +1,36 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {Text, StyleSheet, ScrollView, View, Image} from 'react-native';
+import {Text, StyleSheet, ScrollView, View, Image, ActivityIndicator} from 'react-native';
 import {pegarPokemon} from './services/PokemonService';
 import {capitalize, getColorFromType} from './util';
 
 export default props => {
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState();
   let id = props.route.params.id;
-  let pokemon = pegarPokemon(id);
-  let name = capitalize(pokemon.name);
+  
+  
+
+  useEffect(() => {
+    console.log('carregarDados', id)
+    //setTimeout(carregarDados, 2000);
+    carregarDados()
+  }, []);
+
+  const carregarDados = () => { 
+    pegarPokemons(id)
+    .then(pokemon =>{
+      setData(pokemon)
+      setLoading(false)
+    }) 
+  }
+
   let type = [];
   let typeDefences = [];
-  let typeColor = getColorFromType(pokemon.types[0]);
+  console.log(data)
+  let typeColor = getColorFromType({pokemon:data.types[0]});
   let idTitle = '#' + ('000' + id).slice(-3);
+  let name = capitalize(pokemon.name);
 
   for (let key in pokemon.types) {
     type.push(
@@ -34,7 +53,14 @@ export default props => {
     props.navigation.goBack();
   };
 
-  return (
+  const jsxLoading = () => (
+    <View>
+      <ActivityIndicator size="large" />
+    </View>
+  );
+
+
+ const jsxPokemon = () => (
     <View style={[styles.container, {backgroundColor: typeColor}]}>
       <View style={styles.header}>
         <Ionicons name="arrow-back" style={styles.icon} onPress={botaoVoltar} />
@@ -100,6 +126,9 @@ export default props => {
       </ScrollView>
     </View>
   );
+
+  return loading ? jsxLoading() : jsxPokemon();
+
 };
 
 const styles = StyleSheet.create({

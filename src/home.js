@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   StyleSheet,
-  ScrollView,
   View,
   TextInput,
   ActivityIndicator,
@@ -72,17 +71,21 @@ const App = props => {
   const [q, setQ] = useState('');
 
   useEffect(() => {
-    setTimeout(carregarDados, 2000);
-  });
+    //setTimeout(carregarDados, 2000);
+    carregarDados()
+  }, []);
 
-  const carregarDados = () => {  
-    setData(pegarPokemons());
-    setLoading(false);
-  };
+  const carregarDados = () => { 
+    pegarPokemons()
+    .then(pokemons =>{
+      setData(pokemons)
+      setLoading(false)
+    }) 
+  }
 
   const abrirDetalhe = id => {
     props.navigation.navigate('Detalhes', {id});
-  };
+  }
 
 
   const jsxPokemon = () => (
@@ -149,11 +152,9 @@ const App = props => {
     }
   }
 
-  if (loading) {
-    return jsxLoading();
-  } else {
-    return jsxPokemon();
-  }
+  
+    return loading ? jsxLoading() : jsxPokemon();
+
 };
 
 export default App;
