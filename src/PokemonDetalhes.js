@@ -1,53 +1,53 @@
 import React, {useState, useEffect} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Text, StyleSheet, ScrollView, View, Image, ActivityIndicator} from 'react-native';
-import {pegarPokemon} from './services/PokemonService';
+import {pegarPokemons} from './services/PokemonService';
 import {capitalize, getColorFromType} from './util';
 
 export default props => {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   let id = props.route.params.id;
   
-  
-
   useEffect(() => {
-    console.log('carregarDados', id)
     //setTimeout(carregarDados, 2000);
     carregarDados()
   }, []);
 
-  const carregarDados = () => { 
-    pegarPokemon(id)
-    .then(pokemon =>{
-      setData(pokemon)
-      setLoading(false)
-    }) 
+  const carregarDados = () => {
+    
+    pegarPokemons()
+      .then(pokemons => {
+        
+        setData(pokemons)
+        setLoading(false)
+      })
   }
-
+  console.log(data[id])
+  let pokemon = data[id]
+  console.log(pokemon)
   let type = [];
   let typeDefences = [];
-  console.log(data)
-  let typeColor = getColorFromType({pokemon:data.types[0]});
-  let idTitle = '#' + ('000' + id).slice(-3);
-  let name = capitalize(pokemon.name);
+  //let typeColor = getColorFromType(pokemon.types[0]);
+  // let idTitle = '#' + ('000' + id).slice(-3);
+  // let name = capitalize(pokemon.name);
 
-  for (let key in pokemon.types) {
-    type.push(
-      <Text style={styles.type} key={key}>
-        {pokemon.types[key]}
-      </Text>,
-    );
-  }
+  // for (let key in pokemon.types) {
+  //   type.push(
+  //     <Text style={styles.type} key={key}>
+  //       {pokemon.types[key]}
+  //     </Text>,
+  //   );
+  // }
 
-  for (let key in pokemon.typeDefences) {
-    if (pokemon.typeDefences[key])
-      typeDefences.push(
-        <Text style={styles.dataText} key={key}>
-          {pokemon.typeDefences[key]}
-        </Text>,
-      );
-  }
+  // for (let key in pokemon.typeDefences) {
+  //   if (pokemon.typeDefences[key])
+  //     typeDefences.push(
+  //       <Text style={styles.dataText} key={key}>
+  //         {pokemon.typeDefences[key]}
+  //       </Text>,
+  //     );
+  // }
 
   const botaoVoltar = () => {
     props.navigation.goBack();
@@ -61,8 +61,8 @@ export default props => {
 
 
  const jsxPokemon = () => (
-    <View style={[styles.container, {backgroundColor: typeColor}]}>
-      <View style={styles.header}>
+    //<View style={[styles.container, {backgroundColor: typeColor}]}>
+      {/* <View style={styles.header}>
         <Ionicons name="arrow-back" style={styles.icon} onPress={botaoVoltar} />
       </View>
       <View style={styles.navbar}>
@@ -123,8 +123,8 @@ export default props => {
             <Text style={styles.textoR}>{pokemon.breedings.eggCycles.text}</Text>
           </View>
         </View>
-      </ScrollView>
-    </View>
+      </ScrollView> */}
+    //</View>
   );
 
   return loading ? jsxLoading() : jsxPokemon();

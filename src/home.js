@@ -41,6 +41,7 @@ const App = props => {
   const [q, setQ] = useState('');
 
   useEffect(() => {
+    
     //setTimeout(carregarDados, 2000);
     carregarDados()
   }, []);
@@ -52,7 +53,7 @@ const App = props => {
         setLoading(false)
       })
   }
-
+ 
   const abrirDetalhe = id => {
     props.navigation.navigate('Detalhes', { id });
   }

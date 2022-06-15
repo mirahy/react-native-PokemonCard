@@ -8,6 +8,5 @@ const pegarPokemons  = () => Api.get('/')
 
 const pegarPokemon = id => Api.get('/')
     .then(resposta => resposta.data.push(id))
-    
 
 export {pegarPokemons, pegarPokemon}
