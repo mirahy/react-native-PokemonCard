@@ -18,7 +18,7 @@ export default props => {
   }, []);
 
   const carregarDados = () => { 
-    pegarPokemons(id)
+    pegarPokemon(id)
     .then(pokemon =>{
       setData(pokemon)
       setLoading(false)

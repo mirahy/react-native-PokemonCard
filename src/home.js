@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   StyleSheet,
@@ -11,40 +11,10 @@ import {
 } from 'react-native';
 
 import PokemonCard from './PokemonCard';
-import {pegarPokemons} from './services/PokemonService'
+import { pegarPokemons } from './services/PokemonService'
 
 
-const styles = StyleSheet.create({
-  container: {
-    flex:1,
-    padding: 8,
-    paddingTop: 10,
-    paddingBottom: 0,
-    backgroundColor: '#fff',
-  },
-  title: {
-    color: '#747476',
-    padding: 5,
-    fontSize: 32,
-    fontWeight: 'bold',
-  },
-  text1: {
-    color: '#747476',
-    fontSize: 16,
-    lineHeight: 20,
-    marginBottom: 5,
-    padding: 5,
-  },
-  imgPokeball: {
-    zIndex: -1,
-    opacity: 0.03,
-    width: 400,
-    height: 400,
-    alignSelf: 'center',
-    top: -200,
-    position: 'absolute',
-  }
-});
+
 
 const stylesSearch = StyleSheet.create({
   input: {
@@ -75,34 +45,34 @@ const App = props => {
     carregarDados()
   }, []);
 
-  const carregarDados = () => { 
+  const carregarDados = () => {
     pegarPokemons()
-    .then(pokemons =>{
-      setData(pokemons)
-      setLoading(false)
-    }) 
+      .then(pokemons => {
+        setData(pokemons)
+        setLoading(false)
+      })
   }
 
   const abrirDetalhe = id => {
-    props.navigation.navigate('Detalhes', {id});
+    props.navigation.navigate('Detalhes', { id });
   }
 
 
   const jsxPokemon = () => (
-    <View style={[{backgroundColor: '#fff'},styles.container]}>
+    <View style={[{ backgroundColor: '#fff' }, styles.container]}>
       <Image
-          style={styles.imgPokeball}
-          source={
-            require('../assets/pokeball.png')
-          }
-        />
-      <View style={[{flex: 1}]}>
+        style={styles.imgPokeball}
+        source={
+          require('../assets/pokeball.png')
+        }
+      />
+      <View style={[{ flex: 1 }]}>
         <Text style={styles.title}>Pokédex</Text>
         <Text style={styles.text1}>
           Pesquise um pokemon pelo nome ou usando o número da National Pokedex
         </Text>
         <View>
-        
+
           <TextInput
             style={stylesSearch.input}
             value={q}
@@ -117,18 +87,18 @@ const App = props => {
     </View>
   );
 
-  const Item = props => { 
+  const Item = props => {
     return (
       <PokemonCard
-          id={props.item.id}
-          name={props.item.name}
-          image={props.item.image}
-          types={props.item.types}
-          onPress={abrirDetalhe}
-          description={props.item.description}
-          training={props.item.training}
-          key={props.indexOf}
-        />
+        id={props.item.id}
+        name={props.item.name}
+        image={props.item.image}
+        types={props.item.types}
+        onPress={abrirDetalhe}
+        description={props.item.description}
+        training={props.item.training}
+        key={props.indexOf}
+      />
     );
   };
 
@@ -152,9 +122,42 @@ const App = props => {
     }
   }
 
-  
-    return loading ? jsxLoading() : jsxPokemon();
+
+  return loading ? jsxLoading() : jsxPokemon();
 
 };
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 8,
+    paddingTop: 10,
+    paddingBottom: 0,
+    backgroundColor: '#fff',
+  },
+  title: {
+    color: '#747476',
+    padding: 5,
+    fontSize: 32,
+    fontWeight: 'bold',
+  },
+  text1: {
+    color: '#747476',
+    fontSize: 16,
+    lineHeight: 20,
+    marginBottom: 5,
+    padding: 5,
+  },
+  imgPokeball: {
+    zIndex: -1,
+    opacity: 0.03,
+    width: 400,
+    height: 400,
+    alignSelf: 'center',
+    top: -200,
+    position: 'absolute',
+  }
+});
 
 export default App;
