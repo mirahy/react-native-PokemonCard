@@ -1,56 +1,32 @@
 import React, {useState, useEffect} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {Text, StyleSheet, ScrollView, View, Image, ActivityIndicator} from 'react-native';
-import {pegarPokemons} from './services/PokemonService';
+import {
+  Text,
+  StyleSheet,
+  ScrollView,
+  View,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
+import {pegarPokemon} from './services/PokemonService';
 import {capitalize, getColorFromType} from './util';
 
 export default props => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   let id = props.route.params.id;
-  
+  let pokemon = [];
+
   useEffect(() => {
     //setTimeout(carregarDados, 2000);
-    carregarDados()
+    carregarDados();
   }, []);
 
   const carregarDados = () => {
-    
-    pegarPokemons()
-      .then(pokemons => {
-        
-        setData(pokemons)
-        setLoading(false)
-      })
-  }
-  console.log(data[id])
-  let pokemon = data[id]
-  console.log(pokemon)
-  let type = [];
-  let typeDefences = [];
-  //let typeColor = getColorFromType(pokemon.types[0]);
-  // let idTitle = '#' + ('000' + id).slice(-3);
-  // let name = capitalize(pokemon.name);
-
-  // for (let key in pokemon.types) {
-  //   type.push(
-  //     <Text style={styles.type} key={key}>
-  //       {pokemon.types[key]}
-  //     </Text>,
-  //   );
-  // }
-
-  // for (let key in pokemon.typeDefences) {
-  //   if (pokemon.typeDefences[key])
-  //     typeDefences.push(
-  //       <Text style={styles.dataText} key={key}>
-  //         {pokemon.typeDefences[key]}
-  //       </Text>,
-  //     );
-  // }
-
-  const botaoVoltar = () => {
-    props.navigation.goBack();
+    pegarPokemon(id).then(pokemons => {
+      setData(pokemons);
+      setLoading(false);
+    });
   };
 
   const jsxLoading = () => (
@@ -59,76 +35,108 @@ export default props => {
     </View>
   );
 
+  pokemon = data;
+  if (!Array.isArray(pokemon)) {
+    let type = [];
+    let typeColor = getColorFromType(pokemon.types[0]);
+    let idTitle = '#' + ('000' + id).slice(-3);
+    let name = capitalize(pokemon.name);
 
- const jsxPokemon = () => (
-    //<View style={[styles.container, {backgroundColor: typeColor}]}>
-      {/* <View style={styles.header}>
-        <Ionicons name="arrow-back" style={styles.icon} onPress={botaoVoltar} />
-      </View>
-      <View style={styles.navbar}>
-        <Text style={styles.id}>{idTitle}</Text>
-        <Text style={styles.name}>{name}</Text>
-        <View style={styles.typeContainer}>{type}</View>
-        <Image
-          style={styles.imgPokeball}
-          source={require('../assets/pokeball.png')}
-        />
-        <Image style={styles.imgPokemon} source={{uri: pokemon.image}} />
-      </View>
+    for (let key in pokemon.types) {
+      type.push(
+        <Text style={styles.type} key={key}>
+          {pokemon.types[key]}
+        </Text>,
+      );
+    }
 
-      <ScrollView style={styles.body}>
-        <View style={styles.containerBody}>
-          <Text style={[styles.titulo, {color: typeColor}]}>
-            Sobre o pokemon
-          </Text>
-          <Text style={styles.descricao}>{pokemon.description}</Text>
-          <Text style={[styles.titulo2, {color: typeColor}]}>
-            Dados principais
-          </Text>
-          <View style={styles.row}>
-            <Text style={styles.textoL}>Espécie: </Text>
-            <Text style={styles.textoR}>{pokemon.species}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.textoL}>Tamanho: </Text>
-            <Text style={styles.textoR}>{pokemon.height}m</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.textoL}>Peso: </Text>
-            <Text style={styles.textoR}>{pokemon.weight}Kg</Text>
-          </View>
+    const botaoVoltar = () => {
+      props.navigation.goBack();
+    };
 
-          <Text style={[styles.titulo2, {color: typeColor}]}>Treinamento</Text>
-          <View style={styles.row}>
-            <Text style={styles.textoL}> EV Yield: </Text>
-            <Text style={styles.textoR}>{pokemon.training.evYield}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.textoL}> Catch Rate: </Text>
-            <Text style={styles.textoR}>{pokemon.training.catchRate.text}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.textoL}>  Base Friendship: </Text>
-            <Text style={styles.textoR}>{pokemon.training.baseFriendship.value},
-              {pokemon.training.baseFriendship.text}</Text>
-          </View>
-
-          <Text style={[styles.titulo2, {color: typeColor}]}>Breending</Text>
-          <View style={styles.row}>
-            <Text style={styles.textoL}> Egg Groups: </Text>
-            <Text style={styles.textoR}>{pokemon.breedings.eggGroups}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.textoL}> Egg Cycles: </Text>
-            <Text style={styles.textoR}>{pokemon.breedings.eggCycles.text}</Text>
-          </View>
+    const jsxPokemon = () => (
+      <View style={[styles.container, {backgroundColor: typeColor}]}>
+        <View style={styles.header}>
+          <Ionicons
+            name="arrow-back"
+            style={styles.icon}
+            onPress={botaoVoltar}
+          />
         </View>
-      </ScrollView> */}
-    //</View>
-  );
+        <View style={styles.navbar}>
+          <Text style={styles.id}>{idTitle}</Text>
+          <Text style={styles.name}>{name}</Text>
+          <View style={styles.typeContainer}>{type}</View>
+          <Image
+            style={styles.imgPokeball}
+            source={require('../assets/pokeball.png')}
+          />
+          <Image style={styles.imgPokemon} source={{uri: pokemon.image}} />
+        </View>
 
-  return loading ? jsxLoading() : jsxPokemon();
+        <ScrollView style={styles.body}>
+          <View style={styles.containerBody}>
+            <Text style={[styles.titulo, {color: typeColor}]}>
+              Sobre o pokemon
+            </Text>
+            <Text style={styles.descricao}>{pokemon.description}</Text>
+            <Text style={[styles.titulo2, {color: typeColor}]}>
+              Dados principais
+            </Text>
+            <View style={styles.row}>
+              <Text style={styles.textoL}>Espécie: </Text>
+              <Text style={styles.textoR}>{pokemon.species}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.textoL}>Tamanho: </Text>
+              <Text style={styles.textoR}>{pokemon.height}m</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.textoL}>Peso: </Text>
+              <Text style={styles.textoR}>{pokemon.weight}Kg</Text>
+            </View>
 
+            <Text style={[styles.titulo2, {color: typeColor}]}>
+              Treinamento
+            </Text>
+            <View style={styles.row}>
+              <Text style={styles.textoL}> EV Yield: </Text>
+              <Text style={styles.textoR}>{pokemon.training.evYield}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.textoL}> Catch Rate: </Text>
+              <Text style={styles.textoR}>
+                {pokemon.training.catchRate.text}
+              </Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.textoL}> Base Friendship: </Text>
+              <Text style={styles.textoR}>
+                {pokemon.training.baseFriendship.value},
+                {pokemon.training.baseFriendship.text}
+              </Text>
+            </View>
+
+            <Text style={[styles.titulo2, {color: typeColor}]}>Breending</Text>
+            <View style={styles.row}>
+              <Text style={styles.textoL}> Egg Groups: </Text>
+              <Text style={styles.textoR}>{pokemon.breedings.eggGroups}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.textoL}> Egg Cycles: </Text>
+              <Text style={styles.textoR}>
+                {pokemon.breedings.eggCycles.text}
+              </Text>
+            </View>
+          </View>
+        </ScrollView>
+      </View>
+    );
+
+    return loading ? jsxLoading() : jsxPokemon();
+  }
+
+  return jsxLoading();
 };
 
 const styles = StyleSheet.create({

@@ -1,12 +1,11 @@
-import Pokemos from './PokemonsDb'
 import Api from "./Api"
 
 const pegarPokemons  = () => Api.get('/')
     .then(resposta => resposta.data)
 
-//const pegarPokemon = id => Pokemos[id]
 
 const pegarPokemon = id => Api.get('/')
-    .then(resposta => resposta.data.push(id))
+    .then(resposta => resposta.data.find(pokemon => pokemon.id == id))
+
 
 export {pegarPokemons, pegarPokemon}

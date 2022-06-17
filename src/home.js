@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   StyleSheet,
@@ -7,14 +7,11 @@ import {
   ActivityIndicator,
   Text,
   Image,
-  FlatList
+  FlatList,
 } from 'react-native';
 
 import PokemonCard from './PokemonCard';
-import { pegarPokemons } from './services/PokemonService'
-
-
-
+import {pegarPokemons} from './services/PokemonService';
 
 const stylesSearch = StyleSheet.create({
   input: {
@@ -31,7 +28,7 @@ const stylesSearch = StyleSheet.create({
     left: 20,
     bottom: 22,
     fontFamily: 'Ionicons',
-    fontSize: 22
+    fontSize: 22,
   },
 });
 
@@ -41,39 +38,33 @@ const App = props => {
   const [q, setQ] = useState('');
 
   useEffect(() => {
-    
     //setTimeout(carregarDados, 2000);
-    carregarDados()
+    carregarDados();
   }, []);
 
   const carregarDados = () => {
-    pegarPokemons()
-      .then(pokemons => {
-        setData(pokemons)
-        setLoading(false)
-      })
-  }
- 
-  const abrirDetalhe = id => {
-    props.navigation.navigate('Detalhes', { id });
-  }
+    pegarPokemons().then(pokemons => {
+      setData(pokemons);
+      setLoading(false);
+    });
+  };
 
+  const abrirDetalhe = id => {
+    props.navigation.navigate('Detalhes', {id});
+  };
 
   const jsxPokemon = () => (
-    <View style={[{ backgroundColor: '#fff' }, styles.container]}>
+    <View style={[{backgroundColor: '#fff'}, styles.container]}>
       <Image
         style={styles.imgPokeball}
-        source={
-          require('../assets/pokeball.png')
-        }
+        source={require('../assets/pokeball.png')}
       />
-      <View style={[{ flex: 1 }]}>
+      <View style={[{flex: 1}]}>
         <Text style={styles.title}>Pokédex</Text>
         <Text style={styles.text1}>
           Pesquise um pokemon pelo nome ou usando o número da National Pokedex
         </Text>
         <View>
-
           <TextInput
             style={stylesSearch.input}
             value={q}
@@ -123,11 +114,8 @@ const App = props => {
     }
   }
 
-
   return loading ? jsxLoading() : jsxPokemon();
-
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -158,7 +146,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     top: -200,
     position: 'absolute',
-  }
+  },
 });
 
 export default App;
